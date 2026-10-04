@@ -1,0 +1,105 @@
+{
+  "project_id": "demo-ningbo-review-001",
+  "rule_version": "demo-1.0.0",
+  "assessment_status": "资料不足，需复核",
+  "disaster_resilience_score": null,
+  "claim_risk_score": null,
+  "risk_level": "高",
+  "decision_support": "资料不足，需复核",
+  "highlighted_risks": [
+    "风灾",
+    "暴雨进水"
+  ],
+  "risk_breakdown": [
+    {
+      "disaster": "wind",
+      "name": "风灾",
+      "exposure_score": 85,
+      "resilience_score": 12.5,
+      "risk_score": 74.38,
+      "risk_level": "高",
+      "evidence": [
+        "component.wind_load_pa：600.0；演示参考值：2400",
+        "mounting_system.secure：否",
+        "building.roof_sound：否",
+        "地区灾害程度：85（演示数据）"
+      ],
+      "missing_fields": []
+    },
+    {
+      "disaster": "snow",
+      "name": "积雪",
+      "exposure_score": 20,
+      "resilience_score": 60,
+      "risk_score": 8,
+      "risk_level": "低",
+      "evidence": [
+        "component.snow_load_pa：5400.0；演示参考值：5400",
+        "building.roof_sound：否",
+        "地区灾害程度：20（演示数据）"
+      ],
+      "missing_fields": []
+    },
+    {
+      "disaster": "hail",
+      "name": "冰雹",
+      "exposure_score": 40,
+      "resilience_score": 80,
+      "risk_score": 8,
+      "risk_level": "低",
+      "evidence": [
+        "component.hail_diameter_mm：20.0；演示参考值：25",
+        "地区灾害程度：40（演示数据）"
+      ],
+      "missing_fields": []
+    },
+    {
+      "disaster": "flood",
+      "name": "暴雨进水",
+      "exposure_score": 75,
+      "resilience_score": 8,
+      "risk_score": 69,
+      "risk_level": "高",
+      "evidence": [
+        "protection.drainage_good：否",
+        "protection.equipment_height_m：0.1；演示参考值：0.5",
+        "地区灾害程度：75（演示数据）"
+      ],
+      "missing_fields": []
+    },
+    {
+      "disaster": "lightning",
+      "name": "雷击",
+      "exposure_score": 65,
+      "resilience_score": null,
+      "risk_score": null,
+      "risk_level": "资料不足",
+      "evidence": [
+        "protection.lightning_protection：是",
+        "地区灾害程度：65（演示数据）"
+      ],
+      "missing_fields": [
+        "protection.grounding_verified"
+      ]
+    }
+  ],
+  "required_follow_up_materials": [
+    "接地检测记录"
+  ],
+  "evidence_references": [
+    "模拟组件检测报告",
+    "模拟现场检查记录：支架松动、屋顶状况不良、排水不畅",
+    "接地检测记录尚未提供"
+  ],
+  "data_source": {
+    "mode": "demo",
+    "region": "浙江-宁波",
+    "region_source": "人工构造的地区演示数据，不代表当地真实灾害统计",
+    "threshold_source": "项目演示假设，未经工程标准或赔付数据校准"
+  },
+  "limitations": [
+    "仅表示相对风险，不代表真实出险概率、赔款或加费比例。",
+    "演示阈值及地区数据尚未校准，不可直接作为正式核保依据。",
+    "输入资料由提交方提供，本服务未验证检测报告或现场情况。"
+  ]
+}

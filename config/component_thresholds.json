@@ -1,0 +1,11 @@
+{
+  "version": "demo-1.0.0",
+  "source": "项目演示假设，未经工程标准或赔付数据校准",
+  "thresholds": {
+    "component.wind_load_pa": 2400,
+    "component.snow_load_pa": 5400,
+    "component.hail_diameter_mm": 25,
+    "protection.equipment_height_m": 0.5
+  },
+  "boolean_scores": {"true": 100, "false": 0}
+}

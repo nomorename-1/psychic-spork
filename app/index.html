@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>组件抗灾能力与出险风险量化</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7f8;color:#23332d;font:15px/1.6 "Microsoft YaHei",Arial,sans-serif;letter-spacing:0}header{background:#fff;border-bottom:1px solid #dce4df;padding:20px 28px}header span{color:#64766c;font-size:13px}h1{font-size:24px;margin:0 0 4px}main{max-width:1120px;margin:auto;padding:24px 28px}.notice{border-left:3px solid #b68b20;background:#fff9e9;padding:10px 14px;color:#735b21;margin-bottom:20px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}section{min-width:0}h2{font-size:18px;margin:0 0 14px}fieldset{border:0;border-top:1px solid #dce4df;margin:0 0 20px;padding:14px 0 0}legend{font-weight:bold;padding:0 10px 0 0}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-size:13px;color:#52635a}input,select{width:100%;height:40px;border:1px solid #c8d4cd;border-radius:4px;background:#fff;color:#23332d;padding:8px;font:inherit;margin-top:5px;min-width:0}input:focus,select:focus{outline:2px solid #19845b;outline-offset:1px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}button{border:1px solid #baccc1;border-radius:4px;padding:10px 16px;font:inherit;background:#fff;color:#255d43;cursor:pointer}button.primary{background:#16794f;color:white;border-color:#16794f}button:disabled{opacity:.6;cursor:wait}.result-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.badge{padding:3px 9px;border-radius:4px;font-size:13px;background:#e4ede8}.high{background:#fde7e3;color:#a33024}.medium{background:#fff0cf;color:#886516}.low{background:#e1f3e8;color:#1b7045}.metrics{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #dce4df;border-bottom:1px solid #dce4df;margin:16px 0;padding:14px 0;gap:12px}.metrics span{display:block;font-size:13px;color:#63756a}.metrics strong{font-size:28px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 5px;border-bottom:1px solid #dce4df}th{color:#64766c;font-weight:normal}details{border-bottom:1px solid #dce4df;padding:12px 0}summary{cursor:pointer;font-weight:600}ul{padding-left:20px;overflow-wrap:anywhere}.muted{color:#66786d;font-size:13px}.error{color:#a33024;background:#fdece8;padding:12px;margin:10px 0}.empty{border-top:1px solid #dce4df;padding:32px 0;color:#718076}footer{margin-top:24px;color:#6d7d73;font-size:12px}a{color:#16794f}[hidden]{display:none!important}@media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:18px}main{padding:20px 18px}h1{font-size:21px}.fields{gap:12px}th,td{padding:9px 3px}}
+</style>
+</head>
+<body>
+<header><h1>组件抗灾能力与出险风险量化</h1><span>分布式光伏智能核保 · 项目风险评估</span></header>
+<main>
+<div class="notice">当前采用演示数据，评估结果仅供参考，不代表真实出险概率或赔付金额。</div>
+<div class="layout">
+<section><h2>项目资料</h2><form id="assessment">
+<fieldset><legend>基本情况</legend><div class="fields">
+<label>项目编号<input name="project_id" placeholder="选填"></label>
+<label>项目类型<input name="project_type" required value="工商业屋顶"></label>
+<label>所在省份<input name="province" placeholder="例如：浙江"></label>
+<label>所在城市<input name="city" placeholder="例如：宁波"></label>
+<label>装机容量（kW）<input name="installed_capacity_kw" type="number" min="0.01" step="any" required></label>
+</div></fieldset>
+<fieldset><legend>组件承受能力</legend><div class="fields">
+<label>抗风承载（Pa）<input name="wind_load_pa" type="number" min="0.01" step="any" placeholder="未知可留空"></label>
+<label>抗雪承载（Pa）<input name="snow_load_pa" type="number" min="0.01" step="any" placeholder="未知可留空"></label>
+<label>可承受冰雹直径（mm）<input name="hail_diameter_mm" type="number" min="0.01" step="any" placeholder="未知可留空"></label>
+</div></fieldset>
+<fieldset><legend>安装与防护情况</legend><div class="fields">
+<label>支架连接牢固<select name="secure"></select></label>
+<label>屋顶结构可靠<select name="roof_sound"></select></label>
+<label>排水情况良好<select name="drainage_good"></select></label>
+<label>设备离地高度（m）<input name="equipment_height_m" type="number" min="0" step="any" placeholder="未知可留空"></label>
+<label>具备防雷设施<select name="lightning_protection"></select></label>
+<label>接地检测合格<select name="grounding_verified"></select></label>
+</div></fieldset>
+<div class="actions"><button class="primary" id="submit" type="submit">开始评估</button><button id="sample" type="button">填入示例资料</button><button type="reset">清空资料</button></div>
+<div id="error" class="error" role="alert" hidden></div>
+</form></section>
+<section aria-live="polite" aria-busy="false" id="output"><div class="result-head"><h2>评估结果</h2><span id="status" class="badge">待评估</span></div>
+<div id="empty" class="empty">暂无评估结果</div>
+<div id="result" hidden><p id="decision"></p><div class="metrics"><div><span>总体抗灾能力</span><strong id="resilience"></strong></div><div><span>相对风险评分</span><strong id="risk"></strong></div></div>
+<p id="highlights" class="error" hidden></p>
+<table><thead><tr><th>灾害类型</th><th>抗灾能力</th><th>风险评分</th><th>风险等级</th></tr></thead><tbody id="rows"></tbody></table>
+<details open><summary>判断依据</summary><div id="evidence"></div></details>
+<details open><summary>需要补充的资料</summary><div id="materials"></div></details>
+<p id="version" class="muted"></p>
+<button type="button" id="download">下载评估结果</button></div>
+</section></div>
+<footer>当前已配置演示地区：浙江 · 宁波、黑龙江 · 哈尔滨。其他地区需补充灾害资料。</footer>
+</main>
+<script>
+const form=document.querySelector('#assessment'),error=document.querySelector('#error'),output=document.querySelector('#output');let latest=null;
+const names={wind_load_pa:'抗风承载',snow_load_pa:'抗雪承载',hail_diameter_mm:'可承受冰雹直径',secure:'支架连接牢固',roof_sound:'屋顶结构可靠',drainage_good:'排水情况良好',equipment_height_m:'设备离地高度',lightning_protection:'具备防雷设施',grounding_verified:'接地检测合格',installed_capacity_kw:'装机容量',province:'所在省份',city:'所在城市',project_type:'项目类型'};
+document.querySelectorAll('select').forEach(s=>{[['','资料未知'],['true','是'],['false','否']].forEach(([v,t])=>s.add(new Option(t,v)))});
+const field=n=>form.elements.namedItem(n),num=n=>field(n).value===''?null:Number(field(n).value),bool=n=>field(n).value===''?null:field(n).value==='true';
+function clearResult(){latest=null;document.querySelector('#result').hidden=true;document.querySelector('#empty').hidden=false;document.querySelector('#status').textContent='待评估';document.querySelector('#status').className='badge';error.hidden=true}
+form.addEventListener('input',clearResult);form.addEventListener('change',clearResult);form.addEventListener('reset',clearResult);
+document.querySelector('#sample').onclick=()=>{clearResult();const values={project_id:'demo-001',province:'浙江',city:'宁波',project_type:'工商业屋顶',installed_capacity_kw:500,wind_load_pa:2400,snow_load_pa:5400,hail_diameter_mm:25,equipment_height_m:.5,secure:'true',roof_sound:'true',drainage_good:'true',lightning_protection:'true',grounding_verified:'true'};Object.entries(values).forEach(([k,v])=>field(k).value=v)};
+const node=(tag,text)=>{const e=document.createElement(tag);e.textContent=text;return e};
+const score=v=>v===null?'待核实':String(v);
+function show(p){latest=p;document.querySelector('#empty').hidden=true;document.querySelector('#result').hidden=false;const status=document.querySelector('#status');status.textContent=p.risk_level==='资料不足'?'资料不足':p.risk_level+'风险';status.className='badge '+({'高':'high','中':'medium','低':'low'}[p.risk_level]||'');document.querySelector('#decision').textContent=p.assessment_status+' · '+p.decision_support;document.querySelector('#resilience').textContent=score(p.disaster_resilience_score);document.querySelector('#risk').textContent=score(p.claim_risk_score);const highlights=document.querySelector('#highlights');highlights.hidden=!p.highlighted_risks.length;highlights.textContent='重点关注：'+p.highlighted_risks.join('、');const rows=document.querySelector('#rows'),evidence=document.querySelector('#evidence');rows.replaceChildren();evidence.replaceChildren();p.risk_breakdown.forEach(item=>{const tr=document.createElement('tr');[item.name,score(item.resilience_score),score(item.risk_score),item.risk_level].forEach(t=>tr.append(node('td',t)));rows.append(tr);evidence.append(node('p',item.name));const ul=document.createElement('ul');item.evidence.forEach(text=>{Object.entries(names).forEach(([key,label])=>{text=text.replace(new RegExp('(?:component|mounting_system|building|protection)\\.'+key,'g'),label)});ul.append(node('li',text))});if(item.missing_fields.length)ul.append(node('li','资料不完整，需补充核实'));evidence.append(ul)});const materials=document.querySelector('#materials');materials.replaceChildren();if(p.required_follow_up_materials.length){const ul=document.createElement('ul');p.required_follow_up_materials.forEach(t=>ul.append(node('li',t)));materials.append(ul)}else materials.append(node('p','暂无需要补充的资料'));document.querySelector('#version').textContent='规则版本：'+p.rule_version+' · 数据来源：人工构造的演示数据';}
+form.onsubmit=async e=>{e.preventDefault();clearResult();const button=document.querySelector('#submit');button.disabled=true;button.textContent='评估中…';output.setAttribute('aria-busy','true');const province=field('province').value.trim(),city=field('city').value.trim();if((province&&!city)||(!province&&city)){error.textContent='请同时填写省份和城市，或同时留空。';error.hidden=false;button.disabled=false;button.textContent='开始评估';output.setAttribute('aria-busy','false');return}const payload={project_id:field('project_id').value||null,project_type:field('project_type').value,installed_capacity_kw:num('installed_capacity_kw'),location:province&&city?{province,city}:null,component:{wind_load_pa:num('wind_load_pa'),snow_load_pa:num('snow_load_pa'),hail_diameter_mm:num('hail_diameter_mm')},mounting_system:{secure:bool('secure')},building:{roof_sound:bool('roof_sound')},protection:{drainage_good:bool('drainage_good'),equipment_height_m:num('equipment_height_m'),lightning_protection:bool('lightning_protection'),grounding_verified:bool('grounding_verified')}};const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),20000);form.querySelectorAll('input,select,button').forEach(el=>el.disabled=true);try{const response=await fetch('/api/v1/quantify-risk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});if(!response.ok)throw Error('资料格式不正确，请检查填写内容。');show(await response.json())}catch(err){error.textContent=err.name==='AbortError'?'评估超时，请稍后重试。':err.message==='Failed to fetch'?'无法连接服务，请稍后重试。':err.message;error.hidden=false}finally{clearTimeout(timeout);form.querySelectorAll('input,select,button').forEach(el=>el.disabled=false);button.textContent='开始评估';output.setAttribute('aria-busy','false')}};
+document.querySelector('#download').onclick=()=>{if(!latest)return;const url=URL.createObjectURL(new Blob([JSON.stringify(latest,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='项目风险评估结果.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+</script>
+</body></html>
