@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "scope": "本阶段仅识别高风险场景并执行拒保判断",
+  "rules": [
+    {"rule_id":"HIGH_RISK_SCENE_FARMLAND","rule_name":"农田光伏场景","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["farmland"],"trigger_keywords":["农田","农光","农业光伏"],"decision":"拒保","risk_level":"high","explanation":"识别到农田或农业光伏场景。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_FOREST","rule_name":"森林/林地光伏场景","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["forest"],"trigger_keywords":["森林","林地","林光","森林光伏"],"decision":"拒保","risk_level":"high","explanation":"识别到森林、林地或林光场景。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_FISHERY","rule_name":"渔光互补场景","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["fishery"],"trigger_keywords":["渔业","鱼塘","渔光","渔光互补"],"decision":"拒保","risk_level":"high","explanation":"识别到渔业、鱼塘或渔光互补场景。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_WATER","rule_name":"涉水环境","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["water"],"trigger_keywords":["水面","湖泊","河流","池塘","沿海","涉水"],"decision":"拒保","risk_level":"high","explanation":"识别到涉水环境。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_TIDAL_FLAT","rule_name":"滩涂光伏场景","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["tidal_flat"],"trigger_keywords":["滩涂"],"decision":"拒保","risk_level":"high","explanation":"识别到滩涂场景。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_CENTRALIZED","rule_name":"集中式光伏场景","category":"承保范围外场景","source_types":["pdf","docx","txt","json"],"trigger_labels":["centralized"],"trigger_keywords":["集中式"],"decision":"拒保","risk_level":"high","explanation":"识别到集中式光伏项目。","confidence_threshold":0.80},
+    {"rule_id":"HIGH_RISK_SCENE_AGRICULTURAL_PV","rule_name":"农业光伏场景","category":"高风险投保场景","source_types":["image","pdf","docx","txt","json"],"trigger_labels":["farmland"],"trigger_keywords":["农业光伏","农光"],"decision":"拒保","risk_level":"high","explanation":"识别到农业光伏场景。","confidence_threshold":0.80}
+  ]
+}
