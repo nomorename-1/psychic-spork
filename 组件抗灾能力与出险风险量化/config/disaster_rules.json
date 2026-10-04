@@ -1,0 +1,30 @@
+{
+  "version": "demo-1.0.0",
+  "source": "人工构造的地区演示数据，不代表当地真实灾害统计",
+  "regions": {
+    "浙江-宁波": {"wind": 85, "snow": 20, "hail": 40, "flood": 75, "lightning": 65},
+    "黑龙江-哈尔滨": {"wind": 40, "snow": 85, "hail": 50, "flood": 40, "lightning": 35}
+  },
+  "risk_formula": "exposure * (1 - resilience / 100)",
+  "risk_levels": {"low_max": 30, "medium_max": 60},
+  "disasters": {
+    "wind": {"name": "风灾", "weight": 0.3, "factors": {"component.wind_load_pa": 0.5, "mounting_system.secure": 0.3, "building.roof_sound": 0.2}},
+    "snow": {"name": "积雪", "weight": 0.2, "factors": {"component.snow_load_pa": 0.6, "building.roof_sound": 0.4}},
+    "hail": {"name": "冰雹", "weight": 0.15, "factors": {"component.hail_diameter_mm": 1.0}},
+    "flood": {"name": "暴雨进水", "weight": 0.2, "factors": {"protection.drainage_good": 0.6, "protection.equipment_height_m": 0.4}},
+    "lightning": {"name": "雷击", "weight": 0.15, "factors": {"protection.lightning_protection": 0.5, "protection.grounding_verified": 0.5}}
+  },
+  "materials": {
+    "location": "项目所在地及地址资料",
+    "region_exposure": "所在地灾害资料（当前地区尚未配置）",
+    "component.wind_load_pa": "组件抗风承载检测资料（Pa）",
+    "component.snow_load_pa": "组件抗雪承载检测资料（Pa）",
+    "component.hail_diameter_mm": "组件抗冰雹检测资料（冰雹直径 mm）",
+    "mounting_system.secure": "支架和连接件牢固情况检查记录",
+    "building.roof_sound": "屋顶结构及承载情况检查记录",
+    "protection.drainage_good": "排水设施检查记录",
+    "protection.equipment_height_m": "设备离地高度资料（m）",
+    "protection.lightning_protection": "防雷设施检查记录",
+    "protection.grounding_verified": "接地检测记录"
+  }
+}
